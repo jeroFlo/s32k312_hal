@@ -12,14 +12,25 @@ void OGPIO_Init_PTA29(void)
 {
 	IP_SIUL2->MSCR[29] = SIUL2_MSCR_OBE(1) | SIUL2_MSCR_SSS(0);
 }
+
+/**
+ * @brief PTA30 configure as GPIO output. See reference manual page 424 & IO signal table
+ * 
+ */
 void OGPIO_Init_PTA30(void)
 {
 	IP_SIUL2->MSCR[30] = SIUL2_MSCR_OBE(1) | SIUL2_MSCR_SSS(0);
 }
+
+/**
+ * @brief PTA31 configure as GPIO output. See reference manual page 424 & IO signal table
+ * 
+ */
 void OGPIO_Init_PTA31(void)
 {
 	IP_SIUL2->MSCR[31] = SIUL2_MSCR_OBE(1) | SIUL2_MSCR_SSS(0);
 }
+
 /**
  * @brief PTB19 configure as GPIO input. See reference manual page 424 & IO signal table
  *
@@ -29,17 +40,20 @@ void IGPIO_Init_PTB19(void)
 	IP_SIUL2->MSCR[51] = SIUL2_MSCR_IBE(1)| SIUL2_MSCR_SSS(0);
 }
 
+/**
+ * @brief PTB26 configure as GPIO input. See reference manual page 424 & IO signal table
+ * 
+ */
 void IGPIO_Init_PTB26(void)
 {
 	IP_SIUL2->MSCR[58] = SIUL2_MSCR_IBE(1)| SIUL2_MSCR_SSS(0);
 }
 
-
 /**
- * @brief
+ * @brief Set interruption for PTB26
  *
- * @param edge
- * @param enable
+ * @param edge trigger type: FALLING_EDGE, RISING_EDGE or BOTH_EDGE
+ * @param enable enabling interruption SIUL module. ENABLE or DISABLE allowed
  */
 void GPIO_SetInterrupt_PTB26(edgeType_t edge, boolState_t enable)
 {
@@ -73,48 +87,106 @@ void GPIO_SetInterrupt_PTB26(edgeType_t edge, boolState_t enable)
     }
 
 }
+
+/**
+ * @brief clear interruption for PTB26
+ * 
+ */
 void GPIO_ClearInterruptFlag_PTB26(void)
 {
     IP_SIUL2->DISR0 = SIUL2_DISR0_EIF13_MASK;
 }
+
+/**
+ * @brief Enable interruption at NVIC level for PTB26
+ * 
+ */
 void NVIC_EnableIRQ_PTB26(void){
     NVIC_EnableIRQ(SIUL_1_IRQn);	//Page 306 Reference Manual
 }
 
+/**
+ * @brief toggle output state for PTA29
+ * 
+ */
 void GPIO_Toggle_PTA29(void)
 {
     IP_SIUL2->GPDO29 ^= 1U; //Page 439 Reference Manual
 }
+
+/**
+ * @brief toggle output state for PTA30
+ * 
+ */
 void GPIO_Toggle_PTA30(void)
 {
     IP_SIUL2->GPDO30 ^= 1U;
 }
+
+/**
+ * @brief toggle output state for PTA31
+ * 
+ */
 void GPIO_Toggle_PTA31(void)
 {
     IP_SIUL2->GPDO31 ^= 1U;
 }
+
+/**
+ * @brief Set output state for PTA29
+ * 
+ * @param state ENABLE or DISABLE
+ */
 void GPIO_Set_PTA29(boolState_t state)
 {
     IP_SIUL2->GPDO29 = ~state;
 }
+
+/**
+ * @brief Set output state for PTA30
+ * 
+ * @param state ENABLE or DISABLE
+ */
 void GPIO_Set_PTA30(boolState_t state)
 {
     IP_SIUL2->GPDO30 = ~state;
 }
+
+/**
+ * @brief Set output state for PTA31
+ * 
+ * @param state ENABLE or DISABLE
+ */
 void GPIO_Set_PTA31(boolState_t state)
 {
     IP_SIUL2->GPDO31 = ~state;
 }
+
+/**
+ * @brief Get input state for PTB26
+ * 
+ * @return current input state
+ */
 uint8_t GPIO_Get_PTB26(void)
 {
 	return (uint8_t) IP_SIUL2->GPDI58;
 }
 
+/**
+ * @brief API interface to process an interruption call
+ * 
+ * @param callback reference function to be executed
+ */
 void GPIO_IRQCallback(GPIO_Callback_t callback)
 {
 	Callback_PTB26 = callback;
 
 }
+
+/**
+ * @brief ISR
+ * 
+ */
 #define __INTERRUPT_SIUL_1  __attribute__ ((interrupt ("SIUL1")))
 __INTERRUPT_SIUL_1 void SIUL_1_Handler(void)
 {

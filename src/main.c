@@ -9,7 +9,11 @@
  * S32K312
  ******************************************************************************/
 
-
+/**
+ * @brief basic delay implemented with nop cmds
+ * 
+ * @param t number of nop to perform
+ */
 static void delay(volatile uint32_t t)
 {
     while(t--)
@@ -17,7 +21,6 @@ static void delay(volatile uint32_t t)
         __asm volatile("nop");
     }
 }
-
 
 /**
  * @brief Initializing board LEDs
@@ -54,6 +57,12 @@ static void GPIO_Init_BoardSwitch(uint32_t pin)
     }
 }
 
+/**
+ * @brief Set the BoardLed object
+ * 
+ * @param pin pin number to be set
+ * @param state value to assign, ENABLE or DISABLE 
+ */
 static void set_BoardLed(uint32_t pin, boolState_t state){
 
      // validating PIN input
@@ -66,6 +75,12 @@ static void set_BoardLed(uint32_t pin, boolState_t state){
         GPIO_Set_PTA29(state);
     }
 }
+
+/**
+ * @brief toggle the pin led passed
+ * 
+ * @param pin  pin number to be set
+ */
 static void toggle_BoardLed(uint32_t pin){
 
      // validating PIN input
@@ -78,6 +93,11 @@ static void toggle_BoardLed(uint32_t pin){
         GPIO_Toggle_PTA29();
     }
 }
+
+/**
+ * @brief Interruption handler/accion for PTB26
+ * 
+ */
 static void GPIO_Handler_PTB26(void)
 {
 	set_BoardLed(APP_BOARD_TEST_LED, ENABLE);
@@ -101,11 +121,11 @@ int main(void)
 
     while(1)
     {
-//    	do {
-//            set_BoardLed(APP_BOARD_TEST_LED, ENABLE);
-//            set_BoardLed(APP_BOARD_LED_GREEN, DISABLE);
-//        }
-//        while (0 == GPIO_Get_PTB26());
+   	// do { // Polling routine
+    //        set_BoardLed(APP_BOARD_TEST_LED, ENABLE);
+    //        set_BoardLed(APP_BOARD_LED_GREEN, DISABLE);
+    //    }
+    //    while (0 == GPIO_Get_PTB26());
 
         set_BoardLed(APP_BOARD_TEST_LED, DISABLE);
         set_BoardLed(APP_BOARD_LED_GREEN, ENABLE);

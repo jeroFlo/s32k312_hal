@@ -5,7 +5,7 @@
 		                  |SIUL2_MSCR_SSS_2(((x) >> 2) & 0x01U))
 
 /**
- * @brief 
+ * @brief trigger type for input interruption
  * 
  */
 typedef enum
@@ -49,5 +49,6 @@ void GPIO_Set_PTA30(boolState_t);
 void GPIO_Set_PTA31(boolState_t);
 uint8_t GPIO_Get_PTB26(void);
 
+// Interruption callbacks
 typedef void (*GPIO_Callback_t)(void);
 void GPIO_IRQCallback(GPIO_Callback_t);

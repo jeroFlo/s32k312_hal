@@ -78,21 +78,37 @@ int main(void)
 
 #include "../hal/timer.h"
 
+/**
+ * @brief Interruption handler/accion for timer
+ * 
+ */
+static void timer0_Handler(void)
+{
+	TOGGLE_BOARD_LED_BLUE();
+}
 
 int main(void)
 {
 
     GPIO_Init_BoardLedBlue();
     timer0_Init(TIMER_PERIOD_MS);
+
+    timer0_SetInterrupt();
+    timer0_IRQCallback(timer0_Handler);
+    NVIC_EnableIRQ_timer0();
+    
     timer0_Start();
+
+
 
     while (1)
     {
-        if (isTimer0Expired())
-        {
-            timer0_ClearFlag();
-            TOGGLE_BOARD_LED_BLUE();
-        }
+        // // polling routinr
+        // if (isTimer0Expired())
+        // {
+        //     timer0_ClearFlag();
+        //     TOGGLE_BOARD_LED_BLUE();
+        // }
     }
     return 0;
 }

@@ -1,6 +1,9 @@
-
+#include "stddef.h"
 #include "timer.h"
 
+
+
+static timer0_Callback_t Callback_t0 = NULL;
 
 
 /**
@@ -61,5 +64,40 @@ uint8_t isTimer0Expired(void)
 void timer0_SetInterrupt(void)
 {
     IP_PIT_0->TIMER[0].TCTRL |= PIT_TCTRL_TIE(1);
+}
+
+/**
+ * @brief API interface to process an interruption call
+ * 
+ * @param callback reference function to be executed
+ */
+void timer0_IRQCallback(timer0_Callback_t callback)
+{
+	Callback_t0 = callback;
+
+}
+
+/**
+ * @brief TImer ISR
+ * 
+ */
+#define __INTERRUPT_PIT0  __attribute__ ((interrupt ("PIT0")))
+__INTERRUPT_PIT0 void PIT0_Handler(void)
+{
+    timer0_ClearInterruptFlag();
+
+    if(Callback_t0 != NULL)
+    {
+
+    	Callback_t0();
+    }
+}
+
+/**
+ * @brief Enable interruption at NVIC level for timer0
+ * 
+ */
+void NVIC_EnableIRQ_timer0(void){
+    NVIC_EnableIRQ(PIT0_IRQn);
 }
 

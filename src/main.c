@@ -1,13 +1,16 @@
-
+/**
+ * @file main.c
+ * @brief GPIO and Timer testing.
+ *
+ * @author Jenifer Romero Flores
+ * @date September 2026
+ */ 
 
 
 #include "../hal/GPIO.h"
 #include "app.h"
 
-/******************************************************************************
- * GPIO Bare Metal
- * S32K312
- ******************************************************************************/
+
 //#define GPIO_TEST
 
 #ifdef GPIO_TEST

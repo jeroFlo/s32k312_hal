@@ -1,5 +1,14 @@
+/**
+ * @file timer.h
+ * @brief PIT HAL header and definitions.
+ *
+ * @author Jenifer Romero Flores
+ * @date September 2026
+ */ 
+
 #include "S32K312.h"
 #include "core_cm7.h"
+
 
 #define PIT_CLOCK      48000000UL  //  clock frequency after reset
 

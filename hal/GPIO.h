@@ -1,6 +1,15 @@
+/**
+ * @file GPIO.h
+ * @brief GPIO HAL header and definitions.
+ *
+ * @author Jenifer Romero Flores
+ * @date September 2026
+ */ 
+
 #include "S32K312.h"
 #include "core_cm7.h"
 #include "helper.h"
+
 
 /**
  * @brief Set PIN type

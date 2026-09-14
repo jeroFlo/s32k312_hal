@@ -1,4 +1,11 @@
 
+/**
+ * @file app.h
+ * @brief Declarations used by the application in main.c
+ *
+ * @author Jenifer Romero Flores
+ * @date September 2026
+ */ 
 
 // APP.H
 #define APP_BOARD_LED_RED 29UL

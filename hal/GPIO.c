@@ -1,6 +1,13 @@
-#include "stddef.h"
-#include "GPIO.h"
+/**
+ * @file GPIO.c
+ * @brief GPIO HAL implementation.
+ *
+ * @author Jenifer Romero Flores
+ * @date September 2026
+ */
 
+#include "GPIO.h"
+#include "stddef.h"
 
 static GPIO_Callback_t Callback_SW = NULL;
 

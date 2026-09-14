@@ -1,10 +1,15 @@
 #include "stddef.h"
 #include "timer.h"
 
-
+/**
+ * @file timer.c
+ * @brief PIT Timer HAL implementation.
+ *
+ * @author Jenifer Romero Flores
+ * @date September 2026
+ */
 
 static timer0_Callback_t Callback_t0 = NULL;
-
 
 /**
  * @brief Enable Timer0 module and load period

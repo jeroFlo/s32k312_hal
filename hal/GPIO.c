@@ -49,28 +49,29 @@ void GPIO_SetInterrupt_BoardSwitch(edgeType_t edge, boolState_t enable)
 {
     if (enable)
     {
-      // enabling IRQ SIUL
-	IP_SIUL2->IMCR[541-512] = SIUL2_MSCR_SSS(2); // see IO signal table for PTB26
+	      // enabling IRQ SIUL
+		IP_SIUL2->IMCR[541-512] = SIUL2_MSCR_SSS(2); // see IO signal table for PTB26
+	
+	    switch (edge)
+	    {
+		    case FALLING_EDGE:
+		        IP_SIUL2->IREER0 &= ~SIUL2_IREER0_IREE13_MASK;
+		        IP_SIUL2->IFEER0 |= SIUL2_IFEER0_IFEE13_MASK;
+		        break;
+		    case RISING_EDGE:
+		        IP_SIUL2->IREER0 |= SIUL2_IREER0_IREE13_MASK;
+		        IP_SIUL2->IFEER0 &= ~SIUL2_IFEER0_IFEE13_MASK;
+				break;
+		    default:
+		        IP_SIUL2->IREER0 |= SIUL2_IREER0_IREE13_MASK;
+		        IP_SIUL2->IFEER0 |= SIUL2_IFEER0_IFEE13_MASK;
+		        break;
+	    }
 
-    switch (edge)
-    {
-    case FALLING_EDGE:
-        IP_SIUL2->IREER0 &= ~SIUL2_IREER0_IREE13_MASK;
-        IP_SIUL2->IFEER0 |= SIUL2_IFEER0_IFEE13_MASK;
-        break;
-    case RISING_EDGE:
-        IP_SIUL2->IREER0 |= SIUL2_IREER0_IREE13_MASK;
-        IP_SIUL2->IFEER0 &= ~SIUL2_IFEER0_IFEE13_MASK;
-    default:
-        IP_SIUL2->IREER0 |= SIUL2_IREER0_IREE13_MASK;
-        IP_SIUL2->IFEER0 |= SIUL2_IFEER0_IFEE13_MASK;
-        break;
-    }
-
-    IP_SIUL2->DIRSR0 &= ~SIUL2_DIRSR0_DIRSR13_MASK;	//Select IRQ, no DMA request
-
-    GPIO_ClearInterruptFlag_BoardSwitch();
-    IP_SIUL2->DIRER0 |= SIUL2_DIRER0_EIRE13_MASK; // enable interruption
+	    IP_SIUL2->DIRSR0 &= ~SIUL2_DIRSR0_DIRSR13_MASK;	//Select IRQ, no DMA request
+	
+	    GPIO_ClearInterruptFlag_BoardSwitch();
+	    IP_SIUL2->DIRER0 |= SIUL2_DIRER0_EIRE13_MASK; // enable interruption
 
     } else {
         IP_SIUL2->DIRER0 &= ~SIUL2_DIRER0_EIRE13_MASK;  // disable interruption

@@ -10,7 +10,7 @@
 #include "core_cm7.h"
 
 
-#define PIT_CLOCK      48000000UL  //  clock frequency after reset
+#define PIT_CLOCK      24000000UL //  clock frequency after reset, AIPS_SLOW_CLK, FIRC=48 MHz, div 2
 
 
 void timer0_Init(uint32_t);

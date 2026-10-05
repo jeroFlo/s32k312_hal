@@ -1,40 +1,9 @@
 #include "UART.h"
 #include "S32K312.h"
 #include "core_cm7.h"
-#include "GPIO.h"
 
 static void (*Callback_URx)(void) = 0;
 ringBuffer_t rxBuffer;
-
-void ringBuffer_init(ringBuffer_t *buffer)
-{
-    buffer->head = 0U;
-    buffer->tail = 0U;
-}
-
-int ringBuffer_push(ringBuffer_t *buffer, uint8_t value)
-{
-    uint16_t nextHead = (uint16_t)((buffer->head + 1U) % UART6_RX_BUFFER_SIZE);
-
-    if (nextHead == buffer->tail) {
-        return 0;
-    }
-
-    buffer->data[buffer->head] = value;
-    buffer->head = nextHead;
-    return 1;
-}
-
-int ringBuffer_pop(ringBuffer_t *buffer, uint8_t *value)
-{
-    if (buffer->head == buffer->tail) {
-        return 0;
-    }
-
-    *value = buffer->data[buffer->tail];
-    buffer->tail = (uint16_t)((buffer->tail + 1U) % UART6_RX_BUFFER_SIZE);
-    return 1;
-}
 
 
 

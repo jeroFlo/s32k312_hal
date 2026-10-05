@@ -3,6 +3,9 @@
 This application receives GPS data through the S32K312 LPUART6 peripheral and
 prints the parsed latitude and longitude through the same UART.
 
+## Demo
+https://youtube.com/shorts/ZRYkW5WNdZw
+
 ## Runtime flow
 
 1. `main()` initializes LPUART6 at `9600` baud with `UART6_Init(9600)`.

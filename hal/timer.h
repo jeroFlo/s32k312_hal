@@ -5,12 +5,15 @@
  * @author Jenifer Romero Flores
  * @date September 2026
  */ 
+#ifndef TIMER_H
+#define TIMER_H
 
+#include "helper.h"
 #include "S32K312.h"
 #include "core_cm7.h"
 
 
-#define PIT_CLOCK      24000000UL //  clock frequency after reset, AIPS_SLOW_CLK, FIRC=48 MHz, div 2
+#define PIT_CLOCK      AIPS_SLOW_CLK //  clock frequency after reset, AIPS_SLOW_CLK, FIRC=48 MHz, div 2
 
 
 void timer0_Init(uint32_t);
@@ -24,3 +27,5 @@ void timer0_SetInterrupt(void);
 typedef void (*timer0_Callback_t)(void);
 void timer0_IRQCallback(timer0_Callback_t);
 void NVIC_EnableIRQ_timer0(void);
+
+#endif /* TIMER_H */

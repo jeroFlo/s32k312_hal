@@ -5,6 +5,8 @@
  * @author Jenifer Romero Flores
  * @date September 2026
  */ 
+#ifndef GPIO_H
+#define GPIO_H
 
 #include "S32K312.h"
 #include "core_cm7.h"
@@ -73,3 +75,5 @@ uint8_t isBoardSwitchPressed(void);
 // Interruption callbacks
 typedef void (*GPIO_Callback_t)(void);
 void GPIO_IRQCallback(GPIO_Callback_t);
+
+#endif /* GPIO_H */

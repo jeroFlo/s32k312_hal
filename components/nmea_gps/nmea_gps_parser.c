@@ -1,12 +1,25 @@
 #include "nmea_gps_parser.h"
 #include "../../hal/UART.h"
 
+/**
+ * @file nmea_gps_parser.c
+ * @brief NMEA GNGGA parser and GPS data output implementation.
+ *
+ * The parser consumes sentences in the following format:
+ * `$GNGGA,221056.000,2043.70259,N,10325.56150,W,1,11,1.1,1610.4,M,0.0,M,,*5E`.
+ */
+
 #define LL_POINT_POSITION 5U
 #define LL_DEGREES_POSITION 8U
 
 static nmea_states_t currentState;
 static uint32_t factor;
 
+/**
+ * @brief Initialize the parser state and output values.
+ *
+ * @param gpsData GPS data structure to initialize.
+ */
 void GPS_parser_init(gps_data_t *gpsData)
 {
     currentState = SS;
@@ -18,6 +31,12 @@ void GPS_parser_init(gps_data_t *gpsData)
     gpsData->valid = 0U;
 }
 
+/**
+ * @brief Consume one character from a GNGGA sentence.
+ *
+ * @param gpsData GPS data structure updated by the state machine.
+ * @param c Character received from the GPS module.
+ */
 void GPS_parser(gps_data_t *gpsData, uint8_t c)
 {
     //$GPGGA,051319.000,2043.7067,N,10325.5443,W,6,04,2.4,1632.7,M,0.0,M,,*45
@@ -128,6 +147,12 @@ void GPS_parser(gps_data_t *gpsData, uint8_t c)
                 break;
         }
 }
+
+    /**
+     * @brief Drain the UART receive ring buffer into the GPS parser.
+     *
+     * @param gpsData GPS data structure updated with received sentence data.
+     */
 void GPS_ProcessRx(gps_data_t *gpsData)
 {
     uint8_t c;
@@ -136,6 +161,13 @@ void GPS_ProcessRx(gps_data_t *gpsData)
     }
 }
 
+/**
+ * @brief Print an integer coordinate with degree and fractional markers.
+ *
+ * @param value Scaled coordinate value to print.
+ * @param pointPosition Position at which to print the decimal point.
+ * @param degreesPosition Position at which to print the degree marker.
+ */
 static void uprinti(uint32_t value, uint8_t pointPosition, uint8_t degreesPosition)
 {
     char digits[13];
@@ -162,6 +194,14 @@ static void uprinti(uint32_t value, uint8_t pointPosition, uint8_t degreesPositi
     }
 }
 
+/**
+ * @brief Print valid parsed latitude and longitude values.
+ *
+ * The data is cleared after printing so the same sentence is not printed
+ * again on the next processing loop.
+ *
+ * @param gpsData Parsed GPS data to print.
+ */
 void GPS_PrintData(gps_data_t *gpsData)
 {
     if (0U == gpsData->valid) {

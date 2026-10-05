@@ -3,10 +3,18 @@
 #include "core_cm7.h"
 
 static void (*Callback_URx)(void) = 0;
+
+/**
+ * @brief UART6 receive buffer shared with the application.
+ */
 ringBuffer_t rxBuffer;
 
 
-
+/**
+ * @brief Initialize the LPUART6 peripheral.
+ *
+ * @param baudrate UART baud rate.
+ */
 void UART6_Init(uint32_t baudrate)
 {
     ringBuffer_init(&rxBuffer);
@@ -82,7 +90,11 @@ void UART6_Init(uint32_t baudrate)
 
 }
 
-
+/**
+ * @brief Transmit one character through LPUART6.
+ *
+ * @param c Character to transmit.
+ */
 void uprintc(char c)
 {
     volatile int timeout = 1000000;
@@ -93,6 +105,11 @@ void uprintc(char c)
     IP_LPUART_6->DATA = c;
 }
 
+/**
+ * @brief Transmit a null-terminated string through LPUART6.
+ *
+ * @param s String to transmit.
+ */
 void uprint(const char *s)
 {
     while(*s){
@@ -100,11 +117,21 @@ void uprint(const char *s)
     }
 }
 
+/**
+ * @brief Set the callback invoked after receiving a byte.
+ *
+ * @param callback Function called by the LPUART6 receive interrupt handler.
+ */
 void UART6_RX_IRQCallback(void (*callback)(void))
 {
     Callback_URx = callback;
 }
 
+/**
+ * @brief Receive one character synchronously from LPUART6.
+ *
+ * @return The received character.
+ */
 char ugetc(void)
 {
     while(!(IP_LPUART_6->STAT & LPUART_STAT_RDRF_MASK));

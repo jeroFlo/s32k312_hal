@@ -1,5 +1,14 @@
 #ifndef UART_H
 #define UART_H
+
+/**
+ * @file UART.h
+ * @brief S32K312 LPUART6 interface.
+ *
+ * This adapter configures LPUART6 on the S32K312 and connects received bytes
+ * to the shared UART6 receive ring buffer.
+ */
+
 #include "helper.h"
 #include <stdint.h>
 #include "../components/ring_buffer/ringBuffer.h"

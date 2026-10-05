@@ -18,6 +18,12 @@ typedef enum {
     LONC
 } nmea_states_t;
 
+/**
+ * @brief Parsed latitude and longitude data from a GNGGA sentence.
+ *
+ * Latitude and longitude are stored as scaled integer values. For example,
+ * `2043.70259` is stored as `204370259`.
+ */
 typedef struct {
     uint32_t latitude;
     uint32_t longitude;

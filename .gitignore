@@ -1,0 +1,19 @@
+# Eclipse / IDE files
+.cproject
+.project
+.settings/
+
+# Build outputs
+Debug_FLASH/
+Debug_RAM/
+HW01_RAM/
+HW02_RAM/
+
+# Tool/project settings
+Project_Settings/
+include/
+
+# Images
+image.png
+
+# Optional: ignore entire

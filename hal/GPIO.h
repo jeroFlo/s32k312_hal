@@ -29,6 +29,13 @@
 #define SET_BOARD_LED_RED(state) (IP_SIUL2->GPDO29 = ~(state))
 
 /**
+* @brief Set the BoardLedRed object
+*
+* @param state value to assign, LOW or HIGH
+*/
+#define SET_TIME_PIN(state) (IP_SIUL2->GPDO17 = ~(state))
+
+/**
 * @brief Toggle the red board LED
 *
 */
@@ -63,6 +70,7 @@ typedef enum
 void GPIO_Init_BoardLedRed(void);
 void GPIO_Init_BoardLedBlue(void);
 void GPIO_Init_BoardSwitch(void);
+void GPIO_Init_TimePin(void);
 
 // Interruption config for PTB26
 void GPIO_SetInterrupt_BoardSwitch(edgeType_t, boolState_t);

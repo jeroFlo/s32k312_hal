@@ -38,6 +38,14 @@ void GPIO_Init_BoardSwitch(void)
 {
     IP_SIUL2->MSCR[58] = SIUL2_MSCR_IBE(1)| SIUL2_MSCR_SSS(0);
 }
+/**
+ * @brief Initializing board LED Blue
+ *
+ */
+void GPIO_Init_TimePin(void)
+{
+    IP_SIUL2->MSCR[17] = SIUL2_MSCR_OBE(1) | SIUL2_MSCR_SSS(0);
+}
 
 /**
  * @brief Set interruption for board switch
